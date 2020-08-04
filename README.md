@@ -50,7 +50,7 @@ Once you've logged in, you'll be taken to your dashboard. On the left hand side 
 ![Image of the IBM Q Experience dashboard highlighting the circuit comopser icon](images/2.png)
 _Image of the IBM Q Experience dashboard highlighting the circuit comopser icon_
 
-## Flipping a coin.
+## Flipping a coin
 
 Once the page has loaded, you should now see the Circuit Composer page. Here, we can drag [quantum gates](https://en.wikipedia.org/wiki/Quantum_logic_gate) onto our quantum circuit to manipulate and measure the state of our qubit.
 
@@ -119,3 +119,32 @@ Click the dropdown "Backend" (highlighted in yellow) and select `32q imbq_qasm_s
 
 ![Image showing how to set the backend for our experiment](images/7.png)
 _Image showing how to set the backend for our experiment_
+
+Once we've done that, we're good to go!
+
+Click the blue "Run on imbq_qasm_simulator" button at the top-right of the page, then click the "Jobs" tab (highlighted in purple in the below image). You'll then see a list of all of your pending and complete jobs (highlighted in green). Click on the job to see our results.
+
+![Image showing how to run our experiment](images/8.png)
+_Image showing how to run our experiment_
+
+And you should see something like this:
+
+![Image showing our experiment results](images/9.png)
+_Image showing our experiment results_
+
+At the top we have information about how long it took our experiment to compile/run etc and at the bottom we have our results! As you can see when measured our qubit had a state of 1! So if 0 was tails and 1 was heads, this quantum coin flip would have yielded heads. Your result may be 1, or it may be 0 - there's no way for me to tell because I wrote this workshop before you ran your experiment!.
+
+## Rolling a dice
+
+Now that we've learned how to use a single qubit, let's use a couple more. Heads or tails is neat, but what if you wanted to play something like Snakes and Ladders? We'd need a few more possible results than "heads" or "tails".
+
+When we opened our results for our last experiment a new tab was opened. Find the tab that contains our experiment and open it back up again.
+
+We're going to simulate a dice roll. The minimum number of bits of information that we need to generate the binary value of 6 in base-2 maths is 3 (we can generate a number up to 7 from 0, so we have 8 possible values with 3 bits of information).
+
+Just below q0 on our circuit composer you'll see a little `+` icon (highighted in green below).
+
+![Image showing how to add a qubit to our circuit](images/10.png)
+_Image showing how to add a qubit to our circuit_
+
+Click the `+` button twice to add two more qubits to our circuit.
