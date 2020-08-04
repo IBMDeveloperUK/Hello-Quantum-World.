@@ -309,6 +309,11 @@ The first two lines execute and then monitor the execution of our quantum circui
 
 Once the job has finished executinfg we load the result into the variable `result_exp` with `job_exp.result()`. This gets all of the data from our circuits execution and lets us view it. What we're interested in is the "counts" which is just a collection of the results of the multiple executions of our circuits. There'll only be 1 count in this instance as we only run a single "shot" of our circuit on the system (more on that in the video above). We get the "counts" of our experiment with `result_exp.get_counts(qc)` which returns a dictionary of the states of our qubits and the number of times the experiment yielded each result. If we were to inspect to `counts_exp` variable we'd see something like `{'00000001' : 1}` which would tell us we had 7 qubits measured as `|0>` and one as `|1>`.
 
-On the final two lines, we convert those counts to a base 10 number - our number generated from the execution of our quantum circuit - totally random thanks to the nature of the qubit - and finally we print it out to the system
+On the final two lines, we convert those counts to a base 10 number - our number generated from the execution of our quantum circuit - totally random thanks to the nature of the qubit - and finally we print it out to the system.
+
+Click on the run button one last time, and you should see something like this:
+
+![Image showing the successful execution of our circuit on an IBM Q system](images/20.png)
+_Image showing the successful execution of our circuit on an IBM Q system_
 
 Congratulations! You just ran your very first quantum computing circuit!
