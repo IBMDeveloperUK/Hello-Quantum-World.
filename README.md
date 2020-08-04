@@ -48,7 +48,7 @@ _A screenshot of the IBM Q Experience login page_
 Once you've logged in, you'll be taken to your dashboard. On the left hand side of the screen, you should see a small toolbar of icons. Click the "Circuit Composer" icon (highlighted in green in the image below)
 
 ![Image of the IBM Q Experience dashboard highlighting the circuit comopser icon](images/2.png)
-_A screenshot of the IBM Q Experience login page_
+_Image of the IBM Q Experience dashboard highlighting the circuit comopser icon_
 
 ## Flipping a coin.
 
@@ -60,3 +60,62 @@ The combination of these gates can be used to create operations that are analogo
 
 The gate we're going to be focussing on exclusively in this workshop is perhaps the most commonly used gate - [The Hadamard Gate](https://en.wikipedia.org/wiki/Quantum_logic_gate#Hadamard_(H)_gate) or "H gate" to its friends.
 
+Let's take a moment to get to grips with the different features of the UI.
+
+![Image of the IBM Q Experience dashboard circuit comopser highlighting the different areas of interest for this workshop](images/3.png)
+_Image of the IBM Q Experience dashboard circuit comopser highlighting the different areas of interest for this workshop_
+
+The **GREEN** section is where we can find all of our gates and operations. It's from here that we can select a gate and drag it on to the **BLUE** section to apply the operation to a qubit.
+
+The **BLUE** section is where we compose our quantum circuit. By placing gates and operations in sequence from left to right we can determine how our qubits will be affected.
+
+The **RED** sections is a representation of our qubits. In this case our system currently has use of 3 qubits (labelled q0 through q2). By placing gates and operations on the line to the right of each qubit, we can perform that operation on the qubit. Think of it like writing a musical score on a piece of paper, except instead of writing notes to create music, we're manipulating the properties of our qubit for science (and fun!)
+
+The **PURPLE** section shows the possible final states of our qubits based on our current circuit. Right now, there's nothing in our circuit to affect the state of our qubits, so there's a 100 percent chance that when measured a single qubit it will have a state of `|0>`.
+
+### Placing our first gate
+
+Right now, our quantum circuit has the use of 3 qubits, but in order to flip a coin, we only need one.
+
+Hover over the qubits labelled q1 and q2 and a red trash can icon should appear (highlighted below by an orange box). Click it to remove them from application. We'll add them back in again later, but this will keep things simpler for now.
+
+![Image displaying how to remove the use of qubit from a quantum circuit](images/4.png)
+_Image of the IBM Q Experience dashboard circuit comopser highlighting the different areas of interest for this workshop_
+
+At the top of our view, we have an array of gates and operations we can apply to our qubits. We're going to add a Hadamard gate to our remaining qubit. This put our qubit into a state of _superposition_ when the qubit when measured has an equal probability of collapsing to either a `|0>` or a `|1>`.
+
+![Image the placement of a Hadamard gate on a qubit in a quantum circuit](images/5.png)
+_Image the placement of a Hadamard gate on a qubit in a quantum circuit_
+
+With our qubit in a state of superposition we have a perfectly random chance of our qubit being either a `|0>` or a `|1>` when measured - just like tossing a coin! In order to find out which it's going to be, we need to measure it's state.
+
+At this point, our qubit is essentialy both a 1 and 0 and every possible state in between. When a qubit is measured it "collapses" (that is, it's forced to be either `|0>` or `|1>` ) which gives us our answer - heads or tails! When we take a measurement of our qubit, it will instantly become either of those states. A measurement is an irreversible action, once observed, we can not reverse that action to put the qubit back into the state it was before it was observed. We'd need to perform the same actions we undertook to put it into that state in the first place in order to achieve the same result.
+
+Fun Fact:
+
+Gates (such as the Hadamard or 'X' gate) are _always_ reversible. If we take the X gate, for example (the one which is analogous with a bit wise NOT operation in classical computing) and applied it to a qubit with a state of `|0>` it's state would become `|1>` - however, if we apply the 'X' gate again, it would again become `|0>`.
+
+### Measuring our qubit's state
+#### Taking a measurement
+
+So, now that we've used a Hadamard gate to put our qubit into a superposition, we need to measure that qubit to see if it's going to be either `|0>` or `|0>`. 
+
+In our array of gates and operations we're going to drag the "measure" operation (highlighted below in red) next to our Hadamard gate (highlighted in green).
+
+![Image showing the placement of a measurement operation on a qubit in a quantum circuit](images/6.png)
+_Image showing the placement of a measurement operation on a qubit in a quantum circuit_
+
+And that's it! We've built our first quantum circuit! When we run our program we will have either a `|0>` or `|1>` value (which we can treat much as a bit exactly as we would in a classical system).
+
+#### Running our experiment
+
+So, let's run our quantum program. 
+
+Before we start sending off our programs to be run on an actual quantum computer, we're first going to use a simulator to check that it runs as we might expect and save our credits (the IBM Q Experience is free to use, but has a daily limit of the number of experiments we can run, so let's not use those up yet, we'll need them later).
+
+In the top-right of the IBM Q Experience, you'll see a tab that reads "Run Settings" (highighted below in purple). Click on it and you'll see a new sub-navigation menu appear with some options on where we can run our program.
+
+Click the dropdown "Backend" (highlighted in yellow) and select `32q imbq_qasm_simulator (noisy)` as the backend for our experiment.
+
+![Image showing how to set the backend for our experiment](images/7.png)
+_Image showing how to set the backend for our experiment_
