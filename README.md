@@ -172,7 +172,8 @@ As you can see, I got a 2!
 
 We've had fun so far (well, at least I hope we have 😅). We've learned how to manipulate and measure the state of a 1 or more qubits towards a practical end, but everything we've done so far has been run in a simulator - now it's time to play with the real thing - let's spin up a circuit on a real-life quantum computer.
 
-### Generating a token.
+### Obtaining an API key.
+#### (This step is optional, but useful if you plan to use Qiskit with an IBM Q outside of the IBM Q Experience. Skip to "Starting a Quantum Lab Notebook" if you don't want to do this)
 
 The first thing we'll need to do is generate an API key that will allow and program we run to communicate with the IBM Q network.
 
@@ -180,3 +181,134 @@ At the top right of your page click the little user icon (highlighted below in r
 
 ![Image showing the location of the user account button](images/14.png)
 _Image showing the location of the user account button_
+
+Direct your attention on the dashboard to the section highlighted blue in the image blue. This is where we can obtain an API key for usage in a few minutes. Click the button highlighted in red to copy your API key to your clipboard and save it somewhere for usage in a short while.
+
+![Image showing where to obtain an IBM Q API key](images/15.png)
+_Image showing where to obtain an IBM Q API key_
+
+### Starting a Quantum Lab Notebook
+
+Next, head on over the the left hand side of the screen and click the "Quantum Lab" button highlighted in red.
+
+![Image showing how to open the Quantum Lab notebooks](images/16.png)
+_Image showing how to open the Quantum Lab notebooks_
+
+This will take you to the "Quantum Lab" section of the IBM Q Experience. Up until now we've been enjoying using the graphical circuit composer to construct our quantum circuits, but this time we're going to use a tiny bit of Python with [Qiskit](https://qiskit.org/) (an open-source SDK for programming any compatible Quantum computer) to make something as little more useful
+
+Here, we have a fully functional Jupyter Notebooks equiped to program the IBM Q from the word go.
+
+![Image showing the IBM Q Quantum Labs start page](images/17.png)
+_Image showing the IBM Q Quantum Labs start page_
+
+Click the "New Notebook" button to start a new notebook.
+
+After a few seconds of starting up, you should see something like this:
+
+![Image showing a new IBM Q Quantum Labs notebook](images/18.png)
+_Image showing the IBM Q Quantum Labs start page_
+
+This notebook very helpfully pre-includes most of the pre-requisites we'd need for running most any kind of quantum circuit we can think of.
+
+The first thing we're going to do is add one extra import to our notebook that will let us monitor the progress of our experiment as it's added to the IBM Q system.
+
+Copy the below line and add it to the line just before `provider = IBMQ.load_account()` in your notebook
+
+```python
+from qiskit.tools.monitor import job_monitor
+```
+
+Once you've done that select the cell you've just added the line of code to and click the "Run" button at the top of the UI (highlighted in blue below)
+
+
+![Image showing the location of the "Run" button](images/19.png)
+_Image showing the location of the "Run" button_
+
+This will execute the code in the cell and import all of the dependencies in our application.
+
+### Selecting a machine
+
+Next up, we're going to check which quantum computers on the IBM Q network are available to use.
+
+Copy and paste the following into the blank cell just below the cell containing our import statements and then click the run button again.
+
+```python
+    machines = IBMQ.get_provider(group='open')
+    print(machines.backends())
+```
+
+After a few seconds, you should see an output not unlike the one below:
+
+![Image showing the available systems on the IBM Q network](images/20.png)
+_Image showing the available systems on the IBM Q network_
+
+These are all of the systems available for us to use.
+
+The bit we're interested in is the names of the systems. We can use these to directly access the machines and run our quantum circuit on them. For example, let's look at the output for the IBM Q in Melbourne:
+
+```
+<IBMQBackend('ibmq_16_melbourne') from IBMQ(hub='ibm-q', group='open', project='main')>
+```
+
+If we copy the value at the start of the string (the name of the system) we'd have `ibmq_16_melbourne`, we can use that in our next bit of code.
+
+Pick an IBM Q system at random, though there are difference between then (number of qubits, noise in the environment etc) they should all be adequate for our use case, and then copy and paste the the following in the cell after our last print statement (supplementing the placeholder for the name of the IBM Q system you've elected to use)..
+
+```python
+backend = machines.backends.<NAME OF SYSTEM YOU WISH TO USE>
+```
+
+I'm going to stick with the IBM Q in Melbourne because there's something cool about running a program on a quantum computer on the opposite end of the planet from me.
+
+### Building our Quantum Circuit
+
+Let's create a new cell to start building our quantum circuit in. With the previous cell we were working with still selected, go to the menu at the top of the view and select Insert -> Insert Cell Below. This will create a new cell for us to work in.
+
+Next, copy and paste the following into our shiny new cell.
+
+```python
+QUBIT_NUMBER = 8
+
+qc = QuantumCircuit(QUBIT_NUMBER)
+
+for i in range(0, QUBIT_NUMBER):
+    qc.h(i)
+
+qc.measure_all()
+```
+
+On the first line, we're creating a variable `QUBIT_NUMBER` for how many qubits we want to use for our application. Although some of the quantum systems will have many more qubits than the 8 we want to use, we're only going to generate an 8-bit number (a number somewhere between 0 and 254), so we only need 8 bits of information.
+
+After that, we create a variable `qc` which becomes a reference for building our quantum circuit using qiskit. We pass the variable `QUBIT_NUMBER` into the `QuantumCircuit` method that was already imported for us right back at the very start of the notebook. This tells Qiskit how many qubit we want to use in our quantum circuit.
+
+Next, we have a small for look which adds a Hadamard gate to each of our qubits to put them in a state of superposition - just as we did in the visual circuit composer, except this time we're doing it with Python 🎉
+
+Finally, we have `qc.measure_all()` which is a convenience function which will measure the state of all of the qubits in our circuit.
+
+Click the run button again to load this code into our program, it's almost time to run our circuit on an actual quantum computer!
+
+### Running our experiment
+
+That's our circuit constructed, wasn't too much work in the end, was it? 🥳
+
+Let's add another cell below our previous one and then add the following to it:
+
+```python
+job_exp = execute(qc, backend=backend, shots=1)
+job_monitor(job_exp)
+
+result_exp = job_exp.result()
+counts_exp = result_exp.get_counts(qc)
+
+generated_binary_number = int(list(counts_exp.keys())[0], 2)
+
+print('Our randomly generated number is:', generated_binary_number)
+```
+
+The first two lines execute and then monitor the execution of our quantum circuit on the quantum system. There's a limited amount of quantum computing resource on the public network, so you're job will be added to a queue for execution. `job_monitor` will track the job and then report when it's finished and we're ready to get the results.
+
+Once the job has finished executinfg we load the result into the variable `result_exp` with `job_exp.result()`. This gets all of the data from our circuits execution and lets us view it. What we're interested in is the "counts" which is just a collection of the results of the multiple executions of our circuits. There'll only be 1 count in this instance as we only run a single "shot" of our circuit on the system (more on that in the video above). We get the "counts" of our experiment with `result_exp.get_counts(qc)` which returns a dictionary of the states of our qubits and the number of times the experiment yielded each result. If we were to inspect to `counts_exp` variable we'd see something like `{'00000001' : 1}` which would tell us we had 7 qubits measured as `|0>` and one as `|1>`.
+
+On the final two lines, we convert those counts to a base 10 number - our number generated from the execution of our quantum circuit - totally random thanks to the nature of the qubit - and finally we print it out to the system
+
+Congratulations! You just ran your very first quantum computing circuit!
