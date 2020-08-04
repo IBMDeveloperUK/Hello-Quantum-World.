@@ -313,7 +313,7 @@ On the final two lines, we convert those counts to a base 10 number - our number
 
 Click on the run button one last time, and you should see something like this:
 
-![Image showing the successful execution of our circuit on an IBM Q system](images/20.png)
+![Image showing the successful execution of our circuit on an IBM Q system](images/21.png)
 _Image showing the successful execution of our circuit on an IBM Q system_
 
 Congratulations! You just ran your very first quantum computing circuit!
