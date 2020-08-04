@@ -148,3 +148,35 @@ Just below q0 on our circuit composer you'll see a little `+` icon (highighted i
 _Image showing how to add a qubit to our circuit_
 
 Click the `+` button twice to add two more qubits to our circuit.
+
+Just the same as we did for our first qubit, we're going to add a Hadamard gate and a measure operation to put our qubits into a superposition state where the possibility of the outcome being 50% for either `|0>` or `|1>`.
+
+Once you've placed your Hadamard gates and measure operation on the circuit composer you should have something like the following:
+
+![Image showing our quantum circuit using 3 qubits being put into a superposition with Hadamard gates](images/11.png)
+_Image showing our quantum circuit using 3 qubits being put into a superposition with Hadamard gates_
+
+If you take a moment to look at the bottom-left corner of the IBM Q experience, you'll see a bar chart displaying the probabilities of the possible ouptput of our circuit displayed. As we said before, with 3 bits of information there are 8 possible values we can generate with base 2 math. Because we put each of our qubits into a superposition with an equal possibility of becoming either `|0>` or `|1>` each possible value between 0 and 7 has an equal probability of being the result as every other value - so each possible outcome has a (100 / 8)% chance of being the generated value - or 12.5% as the graph says.
+
+![Image showing the probabilities of the possible outcomes of our quantum circuit](images/12.png)
+_Image showing the probabilities of the possible outcomes of our quantum circuit_
+
+Hit the run experiment button up in the top-right again and then click to see the result of your latest experiment.
+
+![Image showing the result of my experiment yielding the binary value for 2 in base 10 math](images/13.png)
+_Image showing the result of my experiment yielding the binary value for 2 in base 10 math_
+
+As you can see, I got a 2!
+
+## Generating the most random number you'll ever generate
+
+We've had fun so far (well, at least I hope we have 😅). We've learned how to manipulate and measure the state of a 1 or more qubits towards a practical end, but everything we've done so far has been run in a simulator - now it's time to play with the real thing - let's spin up a circuit on a real-life quantum computer.
+
+### Generating a token.
+
+The first thing we'll need to do is generate an API key that will allow and program we run to communicate with the IBM Q network.
+
+At the top right of your page click the little user icon (highlighted below in red) and then select my account. This will take you to you account management page.
+
+![Image showing the location of the user account button](images/14.png)
+_Image showing the location of the user account button_
